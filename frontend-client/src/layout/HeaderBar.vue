@@ -1,12 +1,20 @@
 <template>
   <header>
-    <div class="menu-icon"><i class="fas fa-bars"></i></div>
+    <div class="menu-icon" @click="$emit('open-menu')">
+      <i class="fas fa-bars"></i>
+    </div>
     <div class="brand-logo">
       <img src="/logo.png" alt="Logo" />
     </div>
-    <div class="help-icon"><i class="fas fa-question-circle"></i></div>
+    <div class="help-icon" @click="$emit('open-help')">
+      <i class="fas fa-question-circle"></i>
+    </div>
   </header>
 </template>
+
+<script setup>
+// No props, solo emite eventos
+</script>
 
 <style scoped>
 header {
@@ -15,6 +23,7 @@ header {
   align-items: center;
   padding: 1rem;
   position: relative;
+  background: #000;
 }
 
 .brand-logo {
@@ -33,7 +42,8 @@ header {
 
 .menu-icon, .help-icon {
   font-size: 1.5rem;
-  color: var(--color-primary);
+  color: #d3c423;
   cursor: pointer;
+  z-index: 2;
 }
 </style>

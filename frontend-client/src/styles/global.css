@@ -1,3 +1,5 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+
 :root {
   --color-bg: #000;
   --color-primary: #d3c423;
@@ -6,15 +8,14 @@
   --radius: 14px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: 'Segoe UI', sans-serif;
   padding-bottom: 80px;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
 }
