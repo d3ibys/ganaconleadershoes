@@ -1,0 +1,20 @@
+:root {
+  --color-bg: #000;
+  --color-primary: #d3c423;
+  --color-text: #fff;
+  --color-secondary: #999;
+  --radius: 14px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Segoe UI', sans-serif;
+  padding-bottom: 80px;
+}

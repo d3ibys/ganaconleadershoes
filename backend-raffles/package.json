@@ -1,0 +1,21 @@
+{
+  "name": "rifa-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.25.1",
+    "fastify-plugin": "^4.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
+
