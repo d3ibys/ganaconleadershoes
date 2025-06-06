@@ -1,0 +1,193 @@
+    :root {
+      --color-bg: #000;
+      --color-primary: #d3c423;
+      --color-text: #fff;
+      --color-secondary: #999;
+      --radius: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: 'Segoe UI', sans-serif;
+      padding-bottom: 80px;
+    }
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.brand-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.brand-logo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  object-fit: cover;
+  background: #fff;
+}
+
+
+    .menu-icon, .help-icon {
+      font-size: 1.5rem;
+      color: var(--color-primary);
+      cursor: pointer;
+    }
+
+    .user-greeting {
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      color: #000;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0.5rem;
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-left: 1rem;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      scroll-behavior: smooth;
+    }
+
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .banner {
+      min-width: 85%;
+      height: 120px;
+      background: linear-gradient(45deg, var(--color-primary), #fff700);
+      border-radius: var(--radius);
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .section-title {
+      padding: 0 1rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .raffle-card {
+      background: #111;
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius);
+      margin: 1rem;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 10px rgba(212, 255, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .raffle-card:hover {
+      transform: scale(1.02);
+    }
+
+    .raffle-icon {
+      font-size: 2rem;
+      color: var(--color-primary);
+    }
+
+    .raffle-text {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+.featured-card {
+  background: #111;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+  color: #fff;
+  box-shadow: 0 0 10px #cddc39;
+  position: relative;
+}
+
+.featured-card .progress-bar {
+  background-color: #333;
+  height: 8px;
+  border-radius: 4px;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.featured-card .progress {
+  height: 100%;
+  background-color: #cddc39; /* Marca */
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.featured-card .progress-label {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #ccc;
+  text-align: right;
+}
+
+
+    .nav-bottom {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #111;
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #222;
+      padding: 0.5rem 0;
+      z-index: 99;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--color-secondary);
+    }
+
+    .nav-item.active {
+      color: var(--color-primary);
+    }
+
+    .nav-item i {
+      font-size: 1.3rem;
+      margin-bottom: 0.2rem;
+    }

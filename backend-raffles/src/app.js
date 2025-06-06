@@ -17,7 +17,7 @@ app.register(userRoutes, { prefix: '/api' }); // <-- Nuevas rutas protegidas
 
 const start = async () => {
   try {
-    await app.listen({ port: process.env.PORT || 4000 });
+    await app.listen({ port: process.env.PORT || 4000, host: process.env.HOST || '127.0.0.1' });
     console.log(`🚀 Server running on http://localhost:${process.env.PORT || 4000}`);
   } catch (err) {
     app.log.error(err);

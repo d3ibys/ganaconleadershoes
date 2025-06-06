@@ -1,0 +1,9 @@
+{
+  "_hash": "jEqr8lHQoBpnaFjz2BoXLXrDYHcIKbX9oROFJFFEr2M",
+  "project": {
+    "rootDir": "/var/www/html/leadershoes/pro/front"
+  },
+  "versions": {
+    "nuxt": "3.17.5"
+  }
+}
