@@ -48,17 +48,17 @@ const router = useRouter()
 const { isLoggedIn } = useAuth()
 
 if (process.client && isLoggedIn.value) {
-  router.replace('/dashboard')
+  router.replace('/')
 }
 
-const form = ref({ email: '', password: '' })
+const form = reactive({ email: '', password: '' })
 const { login, loading } = useAuth()
 const error = ref('')
 
 const onLogin = async () => {
   try {
     await login(form)
-    router.push('/dashboard')
+    router.push('/')
   } catch (err) {
     alert('Error al logearse.')
   }

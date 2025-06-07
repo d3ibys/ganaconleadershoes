@@ -76,7 +76,7 @@ const router = useRouter()
 const { isLoggedIn } = useAuth()
 
 if (process.client && isLoggedIn.value) {
-  router.replace('/dashboard')
+  router.replace('/')
 }
 
 const form = reactive({
@@ -92,7 +92,7 @@ const { register, loading } = useAuth()
 const handleRegister = async () => {
   try {
     await register(form)
-    router.push('/dashboard')
+    router.push('/')
   } catch (err) {
     alert('Error al registrarse.')
   }
