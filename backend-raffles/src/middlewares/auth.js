@@ -2,7 +2,7 @@ import fp from 'fastify-plugin';
 import { verifyToken } from '../utils/jwt.js';
 import User from '../models/User.js';
 
-async function authPlugin(fastify, opts, done) {
+async function authPlugin(fastify, opts) {
   fastify.decorate('authenticate', async function (request, reply) {
     try {
       const authHeader = request.headers.authorization;
@@ -28,9 +28,6 @@ async function authPlugin(fastify, opts, done) {
       return reply.code(403).send({ error: 'Access denied: Admins only' });
     }
   });
-
-  done();
 }
 
 export default fp(authPlugin);
-

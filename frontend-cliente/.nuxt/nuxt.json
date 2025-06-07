@@ -1,7 +1,7 @@
 {
-  "_hash": "jEqr8lHQoBpnaFjz2BoXLXrDYHcIKbX9oROFJFFEr2M",
+  "_hash": "Pcxs6d9pJpXUEu4g2glxyz7ix9F_qBbgzgcXDfNm0Vs",
   "project": {
-    "rootDir": "/var/www/html/leadershoes/pro/front"
+    "rootDir": "/var/www/html/leadershoes/pro/frontend-cliente"
   },
   "versions": {
     "nuxt": "3.17.5"

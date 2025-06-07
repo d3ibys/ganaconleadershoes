@@ -4,7 +4,7 @@
       <i class="fas fa-bars"></i>
     </div>
     <div class="brand-logo">
-      <img src="/logo.png" alt="Logo" />
+      <img src="/images/logo.png" alt="Logo" />
     </div>
     <div class="help-icon">
       <i class="fas fa-question-circle"></i>

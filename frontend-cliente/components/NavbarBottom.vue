@@ -18,7 +18,7 @@
 const route = useRoute()
 
 // Simula si está logeado (puedes reemplazar luego con auth real)
-const isLoggedIn = ref(true)
+const isLoggedIn = ref(false)
 
 const menu = computed(() =>
   isLoggedIn.value

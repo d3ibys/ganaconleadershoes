@@ -1,1 +1,1 @@
-export { default } from "file:///var/www/html/leadershoes/pro/front/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
+export { default } from "file:///var/www/html/leadershoes/pro/frontend-cliente/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

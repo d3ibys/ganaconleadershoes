@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import dotenv from 'dotenv';
+import cors from '@fastify/cors';
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
@@ -14,6 +15,14 @@ connectDB();
 app.register(authPlugin); // <-- Aquí
 app.register(authRoutes, { prefix: '/api/auth' });
 app.register(userRoutes, { prefix: '/api' }); // <-- Nuevas rutas protegidas
+
+await app.register(cors, {
+  // Opcional: configura los orígenes permitidos
+  origin: '*', // Permite todos los orígenes (desarrollo). Para producción, especifica el dominio de tu frontend.
+  // origin: ['http://localhost:3000', 'https://frontend.tudominio.com'],
+  // credentials: true, // Si necesitas enviar cookies/autenticación
+});
+
 
 const start = async () => {
   try {
