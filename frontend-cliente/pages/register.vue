@@ -69,6 +69,16 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { useAuth } from '~/composables/useAuth'
+
+const router = useRouter()
+const { isLoggedIn } = useAuth()
+
+if (process.client && isLoggedIn.value) {
+  router.replace('/dashboard')
+}
+
 const form = reactive({
   fullName: '',
   nationalId: '',
@@ -78,7 +88,6 @@ const form = reactive({
 })
 
 const { register, loading } = useAuth()
-const router = useRouter()
 
 const handleRegister = async () => {
   try {

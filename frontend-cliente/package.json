@@ -9,10 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.2.0",
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/core": "^10.9.0",
-    "nuxt": "^3.10.0",
-    "axios": "^1.9.0"
+    "axios": "^1.9.0",
+    "nuxt": "^3.10.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",

@@ -42,11 +42,18 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuth } from '~/composables/useAuth'
+
+const router = useRouter()
+const { isLoggedIn } = useAuth()
+
+if (process.client && isLoggedIn.value) {
+  router.replace('/dashboard')
+}
 
 const form = ref({ email: '', password: '' })
 const { login, loading } = useAuth()
 const error = ref('')
-const router = useRouter()
 
 const onLogin = async () => {
   try {
