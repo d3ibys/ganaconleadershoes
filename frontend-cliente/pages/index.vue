@@ -46,6 +46,7 @@ const drawer = ref(false)
   align-items: center;
   padding: 0 1rem;
   margin-bottom: 1rem;
+  margin-top: 30px;
 }
 .avatar {
   width: 40px;

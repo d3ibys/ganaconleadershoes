@@ -22,6 +22,7 @@
 }
 .brand-logo {
   position: absolute;
+  padding-top: 25px;
   left: 50%;
   transform: translateX(-50%);
 }
