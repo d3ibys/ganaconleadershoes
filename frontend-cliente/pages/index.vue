@@ -1,39 +1,39 @@
 <template>
   <div>
-    <HeaderTop @toggle-drawer="drawer = true" />
+    <!-- Pasar el estado del drawer al HeaderTop para el icono toggle -->
+    <HeaderTop :open="drawer" @toggle-drawer="drawer = !drawer" />
     <MenuDrawer :open="drawer" @close="drawer = false" />
-
-    <div class="user-greeting">
+        <div class="user-greeting">
      <template v-if="isLoggedIn && user && user.fullName">
       <div class="avatar">
         <!-- Avatar dinámico: iniciales si logueado, LS si no -->
           {{ initials(user.fullName) }}
       </div>
-     </template>
       <div>
         <!-- Saludo personalizado -->
-        <template v-if="isLoggedIn && user && user.fullName">
           Hola, {{ firstName(user.fullName) }} 👋
-        </template>
       </div>
+     </template>
     </div>
-
     <CarouselBanners />
-
     <div class="section-title">Rifas destacadas</div>
 
-    <FeaturedCard
-      img="images/ImagenPromocion.png"
-      text="Gana Una 4Runner 2022 + Una moto EK 150 0KM + $1,000 en efectivo"
-      :progress="75"
-      progress-label="75% vendido"
-    />
-    <FeaturedCard
-      icon="fas fa-home"
-      text="Gana Un Apto en Margarita + Una moto EK 150 0KM + $1,000 en efectivo"
-      :progress="93.5"
-      progress-label="93.5% vendido"
-    />
+
+    <div v-if="loading" class="loading">Cargando rifas...</div>
+    <div v-else-if="error" class="error">Error al cargar rifas</div>
+    <div v-else>
+      <FeaturedCard
+        v-for="r in raffles"
+        :key="r.id"
+        :img="r.imageMain"
+        :cost="r.price"
+        :text="r.description"
+        :progress="r.percentSold"
+        :progress-label="`${r.percentSold}% vendido`"
+      />
+      <div v-if="!raffles.length" class="empty">No hay rifas disponibles</div>
+    </div>
+
 
     <NavbarBottom />
   </div>
@@ -47,13 +47,17 @@ import CarouselBanners from '~/components/CarouselBanners.vue'
 import FeaturedCard from '~/components/FeaturedCard.vue'
 import NavbarBottom from '~/components/NavbarBottom.vue'
 import { useAuth } from '~/composables/useAuth'
+import { useRaffles } from '~/composables/useRaffles'
 
 const drawer = ref(false)
 const { isLoggedIn, user } = useAuth()
+const { raffles, loading, error, fetchRaffles } = useRaffles()
 
-/**
- * Obtiene las iniciales del nombre completo
- */
+onServerPrefetch(async () => {
+  await fetchRaffles()
+})
+
+
 function initials(fullName) {
   if (!fullName) return 'LS'
   return fullName
@@ -63,9 +67,6 @@ function initials(fullName) {
     .substring(0, 2)
 }
 
-/**
- * Obtiene el primer nombre para el saludo
- */
 function firstName(fullName) {
   if (!fullName) return ''
   return fullName.split(' ')[0]

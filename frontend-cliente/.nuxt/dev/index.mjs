@@ -645,7 +645,8 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "apiBase": "http://191.101.80.132:4000/api"
+    "apiBase": "http://191.101.80.132:4000/api",
+    "NUXT_PUBLIC_BASE_API": "http://191.101.80.132:4000/api"
   }
 };
 const envOptions = {

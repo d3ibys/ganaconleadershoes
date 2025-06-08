@@ -5,6 +5,7 @@ import { connectDB } from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import authPlugin from './middlewares/auth.js';
+import raffleRoutes from './routes/raffle.routes.js';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ connectDB();
 app.register(authPlugin); // <-- Aquí
 app.register(authRoutes, { prefix: '/api/auth' });
 app.register(userRoutes, { prefix: '/api' }); // <-- Nuevas rutas protegidas
+app.register(raffleRoutes, { prefix: '/api' });
 
 await app.register(cors, {
   // Opcional: configura los orígenes permitidos
