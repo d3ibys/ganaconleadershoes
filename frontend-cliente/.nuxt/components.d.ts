@@ -17,6 +17,7 @@ interface _GlobalComponents {
     'HeaderTop': typeof import("../components/HeaderTop.vue")['default']
     'MenuDrawer': typeof import("../components/MenuDrawer.vue")['default']
     'NavbarBottom': typeof import("../components/NavbarBottom.vue")['default']
+    'TicketCard': typeof import("../components/TicketCard.vue")['default']
     'UserGreeting': typeof import("../components/UserGreeting.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
     'NuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -47,6 +48,7 @@ interface _GlobalComponents {
     'LazyHeaderTop': LazyComponent<typeof import("../components/HeaderTop.vue")['default']>
     'LazyMenuDrawer': LazyComponent<typeof import("../components/MenuDrawer.vue")['default']>
     'LazyNavbarBottom': LazyComponent<typeof import("../components/NavbarBottom.vue")['default']>
+    'LazyTicketCard': LazyComponent<typeof import("../components/TicketCard.vue")['default']>
     'LazyUserGreeting': LazyComponent<typeof import("../components/UserGreeting.vue")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
     'LazyNuxtLayout': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
@@ -83,6 +85,7 @@ export const FeaturedCard: typeof import("../components/FeaturedCard.vue")['defa
 export const HeaderTop: typeof import("../components/HeaderTop.vue")['default']
 export const MenuDrawer: typeof import("../components/MenuDrawer.vue")['default']
 export const NavbarBottom: typeof import("../components/NavbarBottom.vue")['default']
+export const TicketCard: typeof import("../components/TicketCard.vue")['default']
 export const UserGreeting: typeof import("../components/UserGreeting.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -113,6 +116,7 @@ export const LazyFeaturedCard: LazyComponent<typeof import("../components/Featur
 export const LazyHeaderTop: LazyComponent<typeof import("../components/HeaderTop.vue")['default']>
 export const LazyMenuDrawer: LazyComponent<typeof import("../components/MenuDrawer.vue")['default']>
 export const LazyNavbarBottom: LazyComponent<typeof import("../components/NavbarBottom.vue")['default']>
+export const LazyTicketCard: LazyComponent<typeof import("../components/TicketCard.vue")['default']>
 export const LazyUserGreeting: LazyComponent<typeof import("../components/UserGreeting.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>

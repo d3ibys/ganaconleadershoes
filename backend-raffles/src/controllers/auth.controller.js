@@ -32,8 +32,11 @@ export const loginController = async (req, reply) => {
       token,
       user: {
         fullName: user.fullName,
+        nationalId: user.nationalId,
+        phone: user.phone,
         email: user.email,
-        role: user.role
+        role: user.role,
+        status: user.status
       }
     });
   } catch (err) {
