@@ -2,8 +2,8 @@
   <div>
     <div>
       <TicketCard
-        :nombre="user.fullName"
-        :cedula="user.nationalId"
+        nombre="user.fullName"
+        cedula="user.nationalId"
         titulo="Ya estás participando en nuestro gran sorteo."
         tituloResaltado="4RUNNER 2022"
         detalle="Participa para ganar una 4Runner 2022 + una moto EK 150 0KM + $1,000 en efectivo"
@@ -23,6 +23,10 @@ import { useAuth } from '~/composables/useAuth'
 
 const drawer = ref(false)
 const { isLoggedIn, user } = useAuth()
+
+definePageMeta({
+  middleware: 'auth'
+})
 
 </script>
 

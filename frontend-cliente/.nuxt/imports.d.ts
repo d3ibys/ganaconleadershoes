@@ -30,6 +30,7 @@ export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callba
 export { setInterval } from '#app/compat/interval';
 export { useAuth } from '../composables/useAuth';
 export { useAuthApi } from '../composables/useAuthApi';
+export { useRaffleTickets } from '../composables/useRaffleTickets';
 export { useRaffles } from '../composables/useRaffles';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

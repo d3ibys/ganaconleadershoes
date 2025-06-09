@@ -1,6 +1,6 @@
 <template>
   <div class="featured-card">
-    <button class="buy-btn full-card-btn">
+    <button @click="goToRoute('b-form')" class="buy-btn full-card-btn">
       <div class="icon" align="center" v-if="img">
         <img :src="img" alt="Rifa" style="width:70%" />
       </div>
@@ -23,6 +23,9 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
 const props = defineProps({
   img: String,
   icon: String,
@@ -40,6 +43,11 @@ function formatCurrency(val) {
     maximumFractionDigits: 2
   }).format(val)
 }
+
+const goToRoute = (route) => {
+  router.push(route);
+};
+
 </script>
 
 <style scoped>
