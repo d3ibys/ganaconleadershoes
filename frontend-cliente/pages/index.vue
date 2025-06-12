@@ -1,30 +1,30 @@
 <template>
   <div>
-    <!-- Pasar el estado del drawer al HeaderTop para el icono toggle -->
     <HeaderTop :open="drawer" @toggle-drawer="drawer = !drawer" />
     <MenuDrawer :open="drawer" @close="drawer = false" />
-        <div class="user-greeting">
-     <template v-if="isLoggedIn && user && user.fullName">
-      <div class="avatar">
-        <!-- Avatar dinámico: iniciales si logueado, LS si no -->
-          {{ initials(user.fullName) }}
-      </div>
-      <div>
-        <!-- Saludo personalizado -->
-          Hola, {{ firstName(user.fullName) }} 👋
-      </div>
-     </template>
-    </div>
-    <CarouselBanners />
-    <div class="section-title">Rifas destacadas</div>
 
+    <div class="user-greeting">
+      <template v-if="isLoggedIn && user && user.fullName">
+        <div class="avatar">
+          {{ initials(user.fullName) }}
+        </div>
+        <div>
+          Hola, {{ firstName(user.fullName) }} 👋
+        </div>
+      </template>
+    </div>
+
+    <CarouselBanners />
+
+    <div class="section-title">Rifas destacadas</div>
 
     <div v-if="loading" class="loading">Cargando rifas...</div>
     <div v-else-if="error" class="error">Error al cargar rifas</div>
-    <div v-else>
+    <div v-else  style="max-width:600px;margin:auto;padding:0px 20px 0px 20px;">
       <FeaturedCard
         v-for="r in raffles"
         :key="r.id"
+        :slug="r.slug"
         :img="r.imageMain"
         :cost="r.price"
         :text="r.description"
@@ -33,7 +33,6 @@
       />
       <div v-if="!raffles.length" class="empty">No hay rifas disponibles</div>
     </div>
-
 
     <NavbarBottom />
   </div>
@@ -56,7 +55,6 @@ const { raffles, loading, error, fetchRaffles } = useRaffles()
 onServerPrefetch(async () => {
   await fetchRaffles()
 })
-
 
 function initials(fullName) {
   if (!fullName) return 'LS'
@@ -113,3 +111,4 @@ function firstName(fullName) {
   color: #ceb800;
 }
 </style>
+

@@ -24,8 +24,8 @@ onMounted(() => {
   interval = setInterval(() => {
     if (pause.value) return
     index = (index + 1) % banners.length
-    const scrollAmount = banners[index].offsetLeft - carousel.value.offsetLeft
-    carousel.value.scrollTo({ left: scrollAmount, behavior: "smooth" })
+    const scrollAmount = 100 //banners[index].offsetLeft - carousel.value.offsetLeft
+    //carousel.value.scrollTo({ left: scrollAmount, behavior: "smooth" })
   }, 3000)
 })
 </script>

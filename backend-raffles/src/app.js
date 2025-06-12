@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import authPlugin from './middlewares/auth.js';
 import raffleRoutes from './routes/raffle.routes.js';
+import orderRoutes from './routes/order.routes.js';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.register(authPlugin); // <-- Aquí
 app.register(authRoutes, { prefix: '/api/auth' });
 app.register(userRoutes, { prefix: '/api' }); // <-- Nuevas rutas protegidas
 app.register(raffleRoutes, { prefix: '/api' });
+app.register(orderRoutes, { prefix: '/api' });
 
 await app.register(cors, {
   // Opcional: configura los orígenes permitidos

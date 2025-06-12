@@ -1,43 +1,68 @@
-import { useState, useRuntimeConfig } from '#app' // Nuxt 3 composables
-import { computed } from 'vue'
+// ~/composables/useRaffles.js
+import { ref, onMounted } from 'vue'
+import { useRuntimeConfig } from '#app'
 
-export const useRaffles = () => {
+const STORAGE_KEY = 'raffles_cache'
+const CACHE_DURATION = 5 * 60 * 1000 // 5 minutos en ms
+
+export function useRaffles() {
+  const raffles = ref([])
+  const loading = ref(false)
+  const error = ref(null)
   const config = useRuntimeConfig()
   const baseURL = config.public.NUXT_PUBLIC_BASE_API || 'http://191.101.80.132:4000/api'
 
-  const raffles = useState('raffles_list', () => [])
-  const loading = useState('raffles_loading', () => false)
-  const error = useState('raffles_error', () => null)
+  function isCacheValid(cached) {
+    if (!cached || !cached.timestamp || !cached.data) return false
+    const now = new Date().getTime()
+    return now - cached.timestamp < CACHE_DURATION
+  }
 
-  const fetchRaffles = async () => {
-    loading.value = true
-    error.value = null
+  async function fetchRaffles(force = false) {
     try {
-      const data = await $fetch(`${baseURL}/raffles`)
-      raffles.value = data || []
+      loading.value = true
+      error.value = null
+
+      if (process.client) {
+        const cached = JSON.parse(localStorage.getItem(STORAGE_KEY))
+        if (!force && isCacheValid(cached)) {
+          raffles.value = cached.data
+          return
+        }
+      }
+
+      const res = await $fetch(`${baseURL}/raffles`)
+      raffles.value = res || []
+
+      if (process.client) {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            data: raffles.value,
+            timestamp: new Date().getTime(),
+          })
+        )
+      }
     } catch (err) {
-      //error.value = err
-      error.value = err?.message || 'Error desconocido'
-      raffles.value = []
+      error.value = 'No se pudieron cargar las rifas'
+      console.error(err)
     } finally {
       loading.value = false
     }
   }
 
-  const clear = () => {
-    raffles.value = []
-    error.value = null
+  if (process.client) {
+    onMounted(() => {
+      fetchRaffles()
+      setInterval(() => fetchRaffles(true), CACHE_DURATION)
+    })
   }
-
-  const hasRaffles = computed(() => !!raffles.value && raffles.value.length > 0)
 
   return {
     raffles,
     loading,
     error,
     fetchRaffles,
-    clear,
-    hasRaffles,
   }
 }
 

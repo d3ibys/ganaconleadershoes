@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <div class="card">
-      <img :src="image" :alt="title" />
+      <img :src="raffle.imageMain" :alt="raffle.title" />
       <div class="card-header">
-        <span class="badge">{{ date }}</span>
-        <span>Boleto {{ price }}</span>
+        <span class="badge">{{ raffle.createdAt?.split('T')[0] }}</span>
+        <span>Boleto {{ raffle.price ? `Bs. ${raffle.price}` : '-' }}</span>
       </div>
-      <div class="title">{{ title }}</div>
+      <div class="title">{{ raffle.title }}</div>
       <div class="progress-bar" :title="tooltip">
-        <div class="progress-bar-inner" :style="{ width: progress + '%' }"></div>
+        <div class="progress-bar-inner" :style="{ width: raffle.percentSold + '%' }"></div>
       </div>
     </div>
 
@@ -28,7 +28,7 @@
 
       <div class="counter">
         <button @click="decrement">-</button>
-        <span class="count">{{ quantity }}</span>
+        <span class="count" style="width:250px !important">{{ quantity }}</span>
         <button @click="increment">+</button>
       </div>
 
@@ -36,9 +36,17 @@
       <p v-if="quantity < 2" class="warning">⚠️ Mínimo 2 boletos requeridos</p>
       <p v-if="quantity > remaining" class="warning">⚠️ Solo quedan {{ remaining }} disponibles</p>
 
-      <button class="btn" :disabled="quantity < 2 || quantity > remaining || isProcessing" @click="buyTickets">
-        {{ isProcessing ? 'Procesando...' : 'Comprar boletos' }}
-      </button>
+      <form @submit.prevent="handleCheckout">
+        <input class="form_input" v-model="userData.fullName" placeholder="Nombre completo" required />
+        <input class="form_input" v-model="userData.email" placeholder="Correo electrónico" type="email" required />
+        <input class="form_input" v-model="userData.phone" placeholder="Teléfono" required />
+        <input class="form_input" v-model="userData.cedula" placeholder="Cédula" required />
+
+        <button class="btn" :disabled="quantity < 2 || quantity > remaining || isProcessing">
+          {{ isProcessing ? 'Procesando...' : 'Comprar boletos' }}
+        </button>
+      </form>
+
       <button class="btn btn-outline" @click="reset" :disabled="isProcessing">Limpiar</button>
       <button class="btn btn-outline" @click="() => alert('Ver detalle')" :disabled="isProcessing">Ver detalle</button>
     </div>
@@ -46,16 +54,26 @@
 </template>
 
 <script setup>
+import { reactive } from 'vue'
 import { useRaffleTickets } from '@/composables/useRaffleTickets'
+
 const props = defineProps({
-  image: String,
-  date: String,
-  price: String,
-  title: String,
-  progress: Number,
+  raffle: {
+    type: Object,
+    required: true
+  },
   ticketOptions: { type: Array, default: () => [2, 5, 10, 20, 30, 50] },
   popularAmount: { type: Number, default: 5 },
 })
+
+const userData = reactive({
+  fullName: '',
+  email: '',
+  phone: '',
+  whatsapp: '',
+  cedula: ''
+})
+
 const {
   quantity,
   selectedOption,
@@ -67,8 +85,12 @@ const {
   increment,
   decrement,
   reset,
-  buyTickets
-} = useRaffleTickets(5, 2, 1000)
+  checkout
+} = useRaffleTickets(props.raffle.price, 2, props.raffle.totalNumbers - props.raffle.soldNumbers)
+
+const handleCheckout = () => {
+  checkout(props.raffle, userData)
+}
 </script>
 
 <style scoped>
@@ -78,6 +100,17 @@ const {
   --color-text: #fff;
   --color-secondary: #999;
   --radius: 14px;
+}
+
+.form_input {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #222;
+    color: white;
+    box-shadow: 0px 0px 1px 1px #cddc39;
 }
 
 .container {

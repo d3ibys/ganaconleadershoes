@@ -1,6 +1,6 @@
 <template>
   <div class="featured-card">
-    <button @click="goToRoute('b-form')" class="buy-btn full-card-btn">
+    <button @click="goToRoute('/buy-tickets/'+slug)" class="buy-btn full-card-btn">
       <div class="icon" align="center" v-if="img">
         <img :src="img" alt="Rifa" style="width:70%" />
       </div>
@@ -32,7 +32,8 @@ const props = defineProps({
   text: String,
   progress: Number,
   progressLabel: String,
-  cost: [Number, String]
+  cost: [Number, String],
+  slug: String
 })
 
 function formatCurrency(val) {

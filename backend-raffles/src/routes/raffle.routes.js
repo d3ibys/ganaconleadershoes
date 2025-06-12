@@ -33,7 +33,27 @@ async function raffleRoutes(fastify, options) {
       reply.code(500).send({ error: err.message });
     }
   });
+
+  // Buscar una rifa por slug
+  fastify.get('/raffles/:slug', async (request, reply) => {
+    try {
+      const { slug } = request.params;
+      const raffle = await Raffle.findOne({ slug }).lean(); // Busca por el campo slug
+
+      if (!raffle) {
+        return reply.code(404).send({ error: 'Rifa no encontrada' });
+      }
+
+      // Calcular percentSold también para la rifa individual si es necesario
+      const sold = raffle.totalSoldNumbers || 0;
+      const total = raffle.totalNumbers || 1;
+      const percentSold = parseFloat(((sold / total) * 100).toFixed(2));
+
+      reply.send({ ...raffle, percentSold });
+    } catch (err) {
+      reply.code(500).send({ error: err.message });
+    }
+  });
 }
 
 export default raffleRoutes;
-

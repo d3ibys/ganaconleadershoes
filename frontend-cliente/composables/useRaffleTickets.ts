@@ -1,28 +1,37 @@
-// File: composables/useRaffleTickets.ts
-import { ref } from 'vue'
+// ~/composables/useRaffleTickets.ts
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
-export function useRaffleTickets(basePrice = 5, minQty = 2, available = 1000) {
+export function useRaffleTickets(basePrice: number, minQty = 2, available = 1000) {
   const quantity = ref(minQty)
-  const selectedOption = ref(5)
+  const selectedOption = ref(minQty)
   const isProcessing = ref(false)
-  const total = computed(() => quantity.value * basePrice)
   const remaining = ref(available)
-  const tooltip = computed(() => `${available - remaining.value} vendidos / ${available}`)
+  const tooltip = ref('')
+  const baseURL = 'http://191.101.80.132:4000/api'
 
-  const selectOption = (amount) => {
-    selectedOption.value = amount
-    quantity.value = amount
-    localStorage.setItem('selectedQuantity', amount)
-  }
+  const total = computed(() => quantity.value * basePrice)
+
+  const router = useRouter()
 
   const increment = () => {
-    if (quantity.value < remaining.value) quantity.value++
+    if (quantity.value < remaining.value) {
+      quantity.value++
+    }
     selectedOption.value = null
   }
 
   const decrement = () => {
-    if (quantity.value > 1) quantity.value--
+    if (quantity.value > minQty) {
+      quantity.value--
+    }
     selectedOption.value = null
+  }
+
+  const selectOption = (value: number) => {
+    selectedOption.value = value
+    quantity.value = value
+    localStorage.setItem('selectedQuantity', value.toString())
   }
 
   const reset = () => {
@@ -30,11 +39,39 @@ export function useRaffleTickets(basePrice = 5, minQty = 2, available = 1000) {
     selectedOption.value = minQty
   }
 
-  const buyTickets = async () => {
+  const checkout = async (raffle: any, userData: any) => {
     isProcessing.value = true
-    await new Promise(resolve => setTimeout(resolve, 2000)) // simulate API call
-    isProcessing.value = false
-    alert(`✅ Compra realizada exitosamente. ${quantity.value} boletos comprados.`)
+    try {
+      const res = await $fetch(`${baseURL}/raffle/preorders`, {
+        method: 'POST',
+        body: {
+          slug: raffle.slug,
+          quantity: quantity.value,
+          user: userData
+        }
+      })
+
+      if (res.token) {
+        localStorage.setItem('token', res.token)
+      }
+    
+      localStorage.setItem('checkoutUser', JSON.stringify(userData))
+
+      router.push({
+        path: `/checkout/${raffle.slug}`,
+        query: {
+          orderId: res.orderId,
+          quantity: quantity.value.toString(),
+          total: res.total.toString(),
+          slug: raffle.slug
+        }
+      })
+    } catch (error: any) {
+      console.error('❌ Error al crear la preorden:', error)
+      tooltip.value = 'No se pudo crear la orden. Intente nuevamente.'
+    } finally {
+      isProcessing.value = false
+    }
   }
 
   onMounted(() => {
@@ -56,6 +93,7 @@ export function useRaffleTickets(basePrice = 5, minQty = 2, available = 1000) {
     increment,
     decrement,
     reset,
-    buyTickets
+    checkout
   }
-} 
+}
+
