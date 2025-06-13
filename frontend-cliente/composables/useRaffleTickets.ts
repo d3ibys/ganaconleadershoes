@@ -74,6 +74,35 @@ export function useRaffleTickets(basePrice: number, minQty = 2, available = 1000
     }
   }
 
+const submitTicket = async (form, slug, quantityValue, totalValue, orderId) => {
+    isProcessing.value = true
+    try {
+      const res = await fetch(`${baseURL}/order/validate/payment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          raffleSlug: slug,
+          quantity: quantityValue,
+          total: totalValue,
+          orderId: orderId
+        })
+      })
+
+      //if (!res.ok) throw new Error('Error al enviar los datos')
+
+
+      const data = await res.json()
+      localStorage.setItem('paidOrdenApprove', JSON.stringify(data))
+      return { success: true, data }
+    } catch (error) {
+      console.error('❌ Error en submitTicket:', error)
+      return { success: false, error }
+    } finally {
+      isProcessing.value = false
+    }
+  }
+
   onMounted(() => {
     const savedQty = localStorage.getItem('selectedQuantity')
     if (savedQty) {
@@ -93,7 +122,8 @@ export function useRaffleTickets(basePrice: number, minQty = 2, available = 1000
     increment,
     decrement,
     reset,
-    checkout
+    checkout,
+    submitTicket
   }
 }
 

@@ -55,6 +55,7 @@ export function useRaffles() {
     onMounted(() => {
       fetchRaffles()
       setInterval(() => fetchRaffles(true), CACHE_DURATION)
+	console.log('Pagina actualizada cada 5 min...')
     })
   }
 

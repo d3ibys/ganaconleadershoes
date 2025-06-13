@@ -15,6 +15,7 @@ interface _GlobalComponents {
       'BuyCard': typeof import("../components/BuyCard.vue")['default']
     'CarouselBanners': typeof import("../components/CarouselBanners.vue")['default']
     'FeaturedCard': typeof import("../components/FeaturedCard.vue")['default']
+    'GlobalLoader': typeof import("../components/GlobalLoader.vue")['default']
     'HeaderTop': typeof import("../components/HeaderTop.vue")['default']
     'MenuDrawer': typeof import("../components/MenuDrawer.vue")['default']
     'NavbarBottom': typeof import("../components/NavbarBottom.vue")['default']
@@ -47,6 +48,7 @@ interface _GlobalComponents {
       'LazyBuyCard': LazyComponent<typeof import("../components/BuyCard.vue")['default']>
     'LazyCarouselBanners': LazyComponent<typeof import("../components/CarouselBanners.vue")['default']>
     'LazyFeaturedCard': LazyComponent<typeof import("../components/FeaturedCard.vue")['default']>
+    'LazyGlobalLoader': LazyComponent<typeof import("../components/GlobalLoader.vue")['default']>
     'LazyHeaderTop': LazyComponent<typeof import("../components/HeaderTop.vue")['default']>
     'LazyMenuDrawer': LazyComponent<typeof import("../components/MenuDrawer.vue")['default']>
     'LazyNavbarBottom': LazyComponent<typeof import("../components/NavbarBottom.vue")['default']>
@@ -85,6 +87,7 @@ declare module 'vue' {
 export const BuyCard: typeof import("../components/BuyCard.vue")['default']
 export const CarouselBanners: typeof import("../components/CarouselBanners.vue")['default']
 export const FeaturedCard: typeof import("../components/FeaturedCard.vue")['default']
+export const GlobalLoader: typeof import("../components/GlobalLoader.vue")['default']
 export const HeaderTop: typeof import("../components/HeaderTop.vue")['default']
 export const MenuDrawer: typeof import("../components/MenuDrawer.vue")['default']
 export const NavbarBottom: typeof import("../components/NavbarBottom.vue")['default']
@@ -117,6 +120,7 @@ export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/
 export const LazyBuyCard: LazyComponent<typeof import("../components/BuyCard.vue")['default']>
 export const LazyCarouselBanners: LazyComponent<typeof import("../components/CarouselBanners.vue")['default']>
 export const LazyFeaturedCard: LazyComponent<typeof import("../components/FeaturedCard.vue")['default']>
+export const LazyGlobalLoader: LazyComponent<typeof import("../components/GlobalLoader.vue")['default']>
 export const LazyHeaderTop: LazyComponent<typeof import("../components/HeaderTop.vue")['default']>
 export const LazyMenuDrawer: LazyComponent<typeof import("../components/MenuDrawer.vue")['default']>
 export const LazyNavbarBottom: LazyComponent<typeof import("../components/NavbarBottom.vue")['default']>
