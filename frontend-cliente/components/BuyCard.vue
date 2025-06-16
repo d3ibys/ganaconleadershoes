@@ -39,8 +39,8 @@
       <form @submit.prevent="handleCheckout">
         <input class="form_input" v-model="userData.fullName" placeholder="Nombre completo" required />
         <input class="form_input" v-model="userData.email" placeholder="Correo electrónico" type="email" required />
-        <input class="form_input" v-model="userData.phone" placeholder="Teléfono" required />
-        <input class="form_input" v-model="userData.cedula" placeholder="Cédula" required />
+        <input class="form_input" v-model="userData.phone" placeholder="Teléfono" type="number" required />
+        <input class="form_input" v-model="userData.cedula" placeholder="Cédula" type="number" required />
 
         <button class="btn" :disabled="quantity < 2 || quantity > remaining || isProcessing">
           {{ isProcessing ? 'Procesando...' : 'Comprar boletos' }}

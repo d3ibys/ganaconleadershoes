@@ -1,41 +1,95 @@
-const Raffle = require('../models/raffle.model');
+import Raffle from '../models/raffle.model.js';
 
-// Crear una nueva rifa
-exports.createRaffle = async (req, res) => {
+// Crear una nueva rifa (protegido)
+export const createRaffle = async (request, reply) => {
   try {
-    const raffle = new Raffle(req.body);
+    const raffle = new Raffle({
+      ...request.body,
+      createdBy: request.user._id,
+    });
     await raffle.save();
-    res.status(201).json(raffle);
+    reply.code(201).send(raffle);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    reply.code(400).send({ error: err.message });
   }
 };
 
-// Obtener todas las rifas
-exports.getRaffles = async (req, res) => {
+// Obtener todas las rifas (público)
+export const getAllRaffles = async (request, reply) => {
   try {
-    const raffles = await Raffle.find();
+    const raffles = await Raffle.find().lean();
 
+    const rafflesWithPercent = raffles.map(raffle => {
+      const sold = raffle.totalSoldNumbers || 0;
+      const total = raffle.totalNumbers || 1;
+      const percentSold = parseFloat(((sold / total) * 100).toFixed(2));
 
+      return {
+        ...raffle,
+        percentSold
+      };
+    });
 
-
-
-  // Computado que agrega el porcentaje vendido a cada rifa
-  const rafflesWithPercentSold = computed(() =>
-    (raffles.value || []).map(r => ({
-      ...r,
-      percentSold: r.totalNumbers && r.soldNumbers
-        ? Math.round((r.soldNumbers / r.totalNumbers) * 100)
-        : 0
-    }))
-  )
-
-
-const algo = 'Deibys'
-
-
-    res.status(200).json(algo);
+    reply.send(rafflesWithPercent);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    reply.code(500).send({ error: err.message });
   }
 };
+
+// Obtener una rifa por slug (público)
+export const getRaffleBySlug = async (request, reply) => {
+  try {
+    const { slug } = request.params;
+    const raffle = await Raffle.findOne({ slug }).lean();
+
+    if (!raffle) {
+      return reply.code(404).send({ error: 'Raffle not found' });
+    }
+
+    const sold = raffle.totalSoldNumbers || 0;
+    const total = raffle.totalNumbers || 1;
+    const percentSold = parseFloat(((sold / total) * 100).toFixed(2));
+
+    reply.send({ ...raffle, percentSold });
+  } catch (err) {
+    reply.code(500).send({ error: err.message });
+  }
+};
+
+// Actualizar una rifa por ID (protegido)
+export const updateRaffle = async (request, reply) => {
+  try {
+    const { id } = request.params;
+    const update = request.body;
+
+    const updatedRaffle = await Raffle.findByIdAndUpdate(id, update, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedRaffle) {
+      return reply.code(404).send({ error: 'Raffle not found' });
+    }
+
+    reply.send(updatedRaffle);
+  } catch (err) {
+    reply.code(400).send({ error: err.message });
+  }
+};
+
+// Eliminar una rifa por ID (protegido)
+export const deleteRaffle = async (request, reply) => {
+  try {
+    const { id } = request.params;
+    const deleted = await Raffle.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return reply.code(404).send({ error: 'Raffle not found' });
+    }
+
+    reply.send({ message: 'Raffle deleted successfully' });
+  } catch (err) {
+    reply.code(500).send({ error: err.message });
+  }
+};
+
