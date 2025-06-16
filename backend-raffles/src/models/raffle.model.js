@@ -5,15 +5,30 @@ const RaffleSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   details: { type: String },
+
   totalNumbers: { type: Number, required: true },
   soldNumbers: { type: [Number], default: [] },
   totalSoldNumbers: { type: Number, default: 0 },
-  winningNumbers: { type: [Number], default: [] },
+
+  price: { type: Number, required: true },
+
+  // Premio y ganadores
+  firstPrize: { type: String },
+  secondPrize: { type: String },
+  thirdPrize: { type: String },
+
   imageMain: { type: String },
   imageFirstPrize: { type: String },
   imageSecondPrize: { type: String },
   imageThirdPrize: { type: String },
-  price: { type: Number, required: true }
-}, { timestamps: true });
+
+  firstPrizeWinner: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket', default: null },
+  secondPrizeWinner: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket', default: null },
+  thirdPrizeWinner: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket', default: null },
+
+}, {
+  timestamps: true
+});
 
 export default mongoose.model('Raffle', RaffleSchema);
+

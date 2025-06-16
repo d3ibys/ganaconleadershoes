@@ -3,6 +3,7 @@ import {
   getAllRaffles,
   getRaffleBySlug,
   updateRaffle,
+  assignWinners,
   deleteRaffle
 } from '../controllers/raffle.controller.js';
 

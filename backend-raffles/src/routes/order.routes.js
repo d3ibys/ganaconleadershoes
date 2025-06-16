@@ -1,6 +1,7 @@
 import {
   createPreOrder,
-  validateOrderPayment
+  validateOrderPayment,
+  validatePayment
 } from '../controllers/order.controller.js';
 
 export default async function orderRoutes(fastify, options) {
@@ -8,6 +9,6 @@ export default async function orderRoutes(fastify, options) {
   fastify.post('/raffle/preorders', createPreOrder);
 
   // Validar pago (pública o protegida según flujo)
-  fastify.post('/order/validate/payment', validateOrderPayment);
+  fastify.post('/order/validate/payment', validatePayment);
 }
 

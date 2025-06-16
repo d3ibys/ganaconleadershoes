@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema(
   {
@@ -14,26 +14,15 @@ const OrderSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ['pago_movil', 'zelle', 'binance'],
+      enum: ['pagoMovil', 'zelle', 'binance'],
       required: false
     },
-    verificationCode: {
-      type: String,
-      required: false,
-      trim: true,
-    },
-    transactionId: {
-      type: String,
-      required: false,
-      trim: true
-    },
-    zelleSenderName: {
-      type: String,
-      required: false,
-      trim: true
-    }
+    verificationCode: { type: String, trim: true },
+    transactionId: { type: String, trim: true },
+    zelleSenderName: { type: String, trim: true }
   },
   { timestamps: true }
-)
+);
 
-export default mongoose.model('Order', OrderSchema)
+export default mongoose.model('Order', OrderSchema);
+

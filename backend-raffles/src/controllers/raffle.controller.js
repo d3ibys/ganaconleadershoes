@@ -1,4 +1,56 @@
 import Raffle from '../models/raffle.model.js';
+import Ticket from '../models/ticket.model.js';
+
+// Asignar ganadores a la rifa
+export const assignWinners = async (req, res) => {
+  try {
+    const { raffleId, winners } = req.body;
+    const raffle = await Raffle.findById(raffleId);
+
+    if (!raffle) return res.status(404).json({ error: 'Rifa no encontrada' });
+
+    const { first, second, third } = winners;
+
+    const firstWinner = await Ticket.findOne({
+      raffleId,
+      assignedNumbers: first
+    });
+
+    const secondWinner = await Ticket.findOne({
+      raffleId,
+      assignedNumbers: second
+    });
+
+    const thirdWinner = await Ticket.findOne({
+      raffleId,
+      assignedNumbers: third
+    });
+
+    if (!firstWinner || !secondWinner || !thirdWinner) {
+      return res.status(400).json({ error: 'Uno o más tickets ganadores no válidos' });
+    }
+
+    raffle.firstPrizeWinner = firstWinner._id;
+    raffle.secondPrizeWinner = secondWinner._id;
+    raffle.thirdPrizeWinner = thirdWinner._id;
+
+    raffle.winningNumbers = [first, second, third];
+
+    await raffle.save();
+
+    res.status(200).json({
+      message: 'Ganadores asignados exitosamente',
+      winners: {
+        first: firstWinner,
+        second: secondWinner,
+        third: thirdWinner
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 // Crear una nueva rifa (protegido)
 export const createRaffle = async (request, reply) => {

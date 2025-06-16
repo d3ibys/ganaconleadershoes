@@ -65,7 +65,7 @@
       min="0"
       max="9999"
       step="1"
-      placeholder="- - - -"
+      placeholder="Ingrese los últimos 4 dígitos"
       required
     />
     <input
@@ -88,10 +88,20 @@
         <p>Precio por boleto: Bs. {{ raffle?.price }}</p>
         <p>Total: Bs. {{ total }}</p>
       </div>
+	<button
+  	     class="submit-btn"
+  	     type="submit"
+  	     :disabled="isSubmitting || !isFormValid"
+	>
+  	     {{ isSubmitting ? 'Enviando...' : 'Verificar Pago' }}
+	</button>
 
-      <button class="submit-btn" type="submit" :disabled="isSubmitting">
-        {{ isSubmitting ? 'Enviando...' : 'Verificar Pago' }}
-      </button>
+	<p v-if="!isFormValid" class="warning-text">
+  	      Por favor selecciona un método de pago y completa los datos requeridos.
+	</p>
+
+
+
     </form>
   </div>
 </template>
@@ -144,6 +154,13 @@ const userData = ref({
   // otras propiedades que esperes en checkoutUser
 });
 
+const isFormValid = computed(() => {
+  return (
+    form.value.paymentMethod &&
+    form.value.extraInfo !== null &&
+    String(form.value.extraInfo).trim().length > 0
+  )
+})
 
 onMounted(() => {
   // Este código solo se ejecuta en el cliente
@@ -220,6 +237,14 @@ const form = ref({
 
 const isSubmitting = ref(false)
 
+const canSubmit = computed(() => {
+  return (
+    form.value.paymentMethod &&
+    String(form.value.extraInfo || '').trim() !== ''
+  )
+})
+
+
 onMounted(() => {
   if (!raffles.value.length) fetchRaffles()
 })
@@ -236,14 +261,6 @@ onMounted(() => {
     orderId: orderId
   }
 */
-  // Aquí se enviaría al backend
-//  setTimeout(() => {
-//    console.log('Enviado al backend:', payload)
-//    isSubmitting.value = false
-//    alert('Compra registrada exitosamente')
-//    router.push('/')
-//  }, 1500)
-//}
 
 
 //const result = await submitTicket(form.value, slug, quantity, total)
@@ -255,14 +272,27 @@ async function handleSubmit() {
 
   isSubmitting.value = false
   console.log('Result: ', result)
-/*
+	
   if (result.success) {
-    alert('✅ Compra registrada exitosamente')
-    router.push('/')
+      if (process.client) {
+        localStorage.setItem(
+          'orderConfirmationData',
+          JSON.stringify({
+            quantity: quantity,
+            totalNumber: quantity,
+	    total: total,
+	    paymentMethod: form.value.paymentMethod
+
+          })
+        )
+      }
+
+    //alert('✅ Compra registrada exitosamente')
+    router.push('/checkout/confirmation')
+console.log('Rifa: ',raffle.value.title)
   } else {
     alert('❌ Ocurrió un error al registrar la compra')
   }
-*/
 }
 
 
@@ -285,6 +315,16 @@ const copyPaymentInfo = async (e) => {
 </script>
 
 <style scoped>
+.warning-text {
+  color: #ffcc00;
+  background: #332f00;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
 .checkout-container {
   max-width: 600px;
   margin: auto;

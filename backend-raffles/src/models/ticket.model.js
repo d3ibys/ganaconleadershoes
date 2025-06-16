@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const ticketSchema = new mongoose.Schema({
-  raffleId: {
+  raffle: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Raffle',
     required: true,
