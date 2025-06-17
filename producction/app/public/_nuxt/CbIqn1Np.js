@@ -1,0 +1,1 @@
+import{c as n,a,o as l}from"./BTjzZhfb.js";const o={__name:"index",setup(r){return(s,e)=>(l(),n("div",null,e[0]||(e[0]=[a("h1",null,"Panel de Administración",-1),a("p",null,"Bienvenido al panel. Usa el menú para gestionar rifas.",-1)])))}};export{o as default};

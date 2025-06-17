@@ -21,7 +21,7 @@ const raffles = ref([])
 
 onMounted(async () => {
   try {
-    const res = await axios.get('http://191.101.80.132:4000/api/raffles')
+    const res = await axios.get('https://api.ganaconleadershoes.com/api/raffles')
     raffles.value = res.data
   } catch (err) {
     console.error('Error al obtener rifas', err)

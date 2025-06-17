@@ -645,8 +645,8 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "apiBase": "http://191.101.80.132:4000/api",
-    "NUXT_PUBLIC_BASE_API": "http://191.101.80.132:4000/api"
+    "apiBase": "http://api.ganaconleadershoes.com/api",
+    "NUXT_PUBLIC_BASE_API": "https://api.ganaconleadershoes.com/api"
   }
 };
 const envOptions = {

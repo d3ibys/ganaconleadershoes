@@ -28,7 +28,7 @@
 
       <div class="counter">
         <button @click="decrement">-</button>
-        <span class="count" style="width:250px !important">{{ quantity }}</span>
+           <input type="number" class="count" style="width:250px !important;text-align:center;" :value="quantity"/>
         <button @click="increment">+</button>
       </div>
 
@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted} from 'vue'
 import { useRaffleTickets } from '@/composables/useRaffleTickets'
 
 const props = defineProps({
@@ -86,11 +86,22 @@ const {
   decrement,
   reset,
   checkout
-} = useRaffleTickets(props.raffle.price, 2, props.raffle.totalNumbers - props.raffle.soldNumbers)
+} = useRaffleTickets(props.raffle.price, 2, props.raffle.totalNumbers - props.raffle.totalSoldNumbers)
 
 const handleCheckout = () => {
   checkout(props.raffle, userData)
 }
+
+onMounted(() => {
+  if (process.client && localStorage.getItem('checkoutUser')) {
+    try {
+      const savedData = JSON.parse(localStorage.getItem('checkoutUser'))
+      Object.assign(userData, savedData)
+    } catch (error) {
+      console.error('Error al cargar datos del localStorage:', error)
+    }
+  }
+})
 </script>
 
 <style scoped>

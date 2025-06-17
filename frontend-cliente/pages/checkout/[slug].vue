@@ -300,7 +300,8 @@ const copyPaymentInfo = async (e) => {
   e.preventDefault()
   if (process.client && navigator?.clipboard?.writeText) {
     try {
-      await navigator.clipboard.writeText(paymentDetails)
+      const textToCopy = mobilePaymentDetails.replace(/\n/g, ' ').trim()
+      await navigator.clipboard.writeText(textToCopy)
       alert('✅ Datos copiados al portapapeles')
     } catch (err) {
       alert('❌ No se pudieron copiar los datos')
@@ -310,7 +311,6 @@ const copyPaymentInfo = async (e) => {
     alert('❌ Esta función no es compatible con tu navegador o estás en HTTP')
   }
 }
-
 
 </script>
 

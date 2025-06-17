@@ -1,0 +1,1 @@
+import{_ as e,c,o as t}from"./BTjzZhfb.js";const n={},s={class:"text-white p-4"};function o(r,a){return t(),c("div",s,"Página de Rifas (en construcción)")}const i=e(n,[["render",o]]);export{i as default};

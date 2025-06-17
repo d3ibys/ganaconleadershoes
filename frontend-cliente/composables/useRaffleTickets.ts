@@ -8,15 +8,17 @@ export function useRaffleTickets(basePrice: number, minQty = 2, available = 1000
   const isProcessing = ref(false)
   const remaining = ref(available)
   const tooltip = ref('')
-  const baseURL = 'http://191.101.80.132:4000/api'
+  const baseURL = 'https://api.ganaconleadershoes.com/api'
 
   const total = computed(() => quantity.value * basePrice)
 
   const router = useRouter()
 
   const increment = () => {
+console.log('Remain: '+remaining.value)
     if (quantity.value < remaining.value) {
       quantity.value++
+      console.log('Botón presionado,valor: '+quantity.value)
     }
     selectedOption.value = null
   }

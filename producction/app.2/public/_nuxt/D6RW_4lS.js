@@ -1,0 +1,1 @@
+import{_ as e,c,o as t}from"./-XG8-ux0.js";const s={},n={class:"text-white p-4"};function o(r,a){return t(),c("div",n,"Página de Rifas (en construcción)")}const i=e(s,[["render",o]]);export{i as default};

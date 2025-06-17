@@ -1,5 +1,5 @@
 export const useAuthApi = () => {
-  const baseURL = 'http://191.101.80.132:4000/api' //useRuntimeConfig().public.NUXT_PUBLIC_BASE_API
+  const baseURL = 'https://api.ganaconleadershoes.com/api' //useRuntimeConfig().public.NUXT_PUBLIC_BASE_API
 
   const register = async (payload: { fullName: string; email: string; password: string }) => {
     return await $fetch(`${baseURL}/auth/register`, {

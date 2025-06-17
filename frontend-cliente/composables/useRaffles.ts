@@ -10,7 +10,7 @@ export function useRaffles() {
   const loading = ref(false)
   const error = ref(null)
   const config = useRuntimeConfig()
-  const baseURL = config.public.NUXT_PUBLIC_BASE_API || 'http://191.101.80.132:4000/api'
+  const baseURL = config.public.NUXT_PUBLIC_BASE_API || 'https://api.ganaconleadershoes.com/api'
 
   function isCacheValid(cached) {
     if (!cached || !cached.timestamp || !cached.data) return false

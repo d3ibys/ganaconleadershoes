@@ -1,0 +1,4 @@
+const raffles_vue_vue_type_style_index_0_scoped_ae91a691_lang = ".user-greeting[data-v-ae91a691]{margin-bottom:1rem;margin-top:15px;padding:0 1rem}.avatar[data-v-ae91a691],.user-greeting[data-v-ae91a691]{align-items:center;display:flex}.avatar[data-v-ae91a691]{background-color:var(--color-primary,#f3cc23);border-radius:50%;box-shadow:0 2px 8px #0001;color:#000;font-size:1.15rem;font-weight:700;height:40px;justify-content:center;letter-spacing:.03em;margin-right:.5rem;width:40px}.section-title[data-v-ae91a691]{font-size:1.1rem;font-weight:700;margin-bottom:.5rem;padding:0 1rem}.saludo-link[data-v-ae91a691]{color:var(--color-primary,#f3cc23);font-weight:600;margin:0 .1em;text-decoration:underline;transition:color .18s}.saludo-link[data-v-ae91a691]:hover{color:#ceb800}";
+
+export { raffles_vue_vue_type_style_index_0_scoped_ae91a691_lang as r };
+//# sourceMappingURL=raffles-styles-1.mjs-BZCtiYzC.mjs.map

@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import Order from '../models/order.model.js';
 import Ticket from '../models/ticket.model.js';
 import { assignRandomNumbers } from '../utils/numberAssigner.js';
+import { sendWhatsappMessage } from '../services/whatsapp.service.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
@@ -21,7 +22,7 @@ export const createPreOrder = async (request, reply) => {
     const remaining = raffle.totalNumbers - raffle.totalSoldNumbers;
     if (quantity > remaining) return reply.code(400).send({ error: 'No hay suficientes boletos disponibles' });
 
-    let existingUser = await User.findOne({ email: user.email });
+    let existingUser = await User.findOne({ nationalId: user.cedula });
     let token = null;
 
     if (!existingUser) {
@@ -68,7 +69,9 @@ export const createPreOrder = async (request, reply) => {
 export const validatePayment = async (request, reply) => {
   try {
     const { orderId, paymentMethod, extraInfo } = request.body;
-    const order = await Order.findById(orderId).populate('raffle');
+    const order = await Order.findById(orderId)
+                                      .populate('raffle', 'name description price') // Solo estos campos de raffle
+                                      .populate('user', 'fullName nationalId email phone');        // Solo estos campos de user
     if (!order) return reply.code(404).send({ error: 'Orden no encontrada' });
 
     if (order.status === 'paid') {
@@ -107,63 +110,66 @@ export const validatePayment = async (request, reply) => {
     raffle.totalSoldNumbers += assignedNumbers.length;
     await raffle.save();
 
+
+console.log('Orden datos: '+order)
+    
+    const whatsappMessageAdmin = `
+🏦 Método de pago: ${order.paymentMethod}
+━━━━━━━━━━━━━━━━━
+📝 Orden: ${order._id}
+━━━━━━━━━━━━━━━━━
+#️⃣ Código confirmación: ${order.verificationCode}
+━━━━━━━━━━━━━━━━━
+🎟️ Cantidad: ${order.quantity}
+━━━━━━━━━━━━━━━━━
+👩🏻‍🤝‍👨🏻 Cliente: ${order.user.fullName}
+━━━━━━━━━━━━━━━━
+🪪 Cédula: ${order.user.nationalId}
+━━━━━━━━━━━━━━━━
+💰 Monto total: ${order.total}
+`
+    const sendWhatsappResult = await sendWhatsappMessage('584248362674', whatsappMessageAdmin);
+
+
     reply.code(200).send({ 
 	   message: 'Pago en proceso de verificación, los números ya fuerón asignados', 
 	   ticket,
-	   status: true 
+	   whatsappMessageStatus: sendWhatsappResult,
+	   status: true
     });
   } catch (err) {
     reply.code(500).send({ error: err.message });
   }
 };
 
-// Validar pago de una orden
-export const validateOrderPayment = async (request, reply) => {
+
+export const changeOrderStatus = async (request, reply) => {
   try {
     const { orderId, paymentMethod, extraInfo } = request.body;
-
-    if (!orderId || !paymentMethod || !extraInfo) {
-      return reply.code(400).send({ error: 'Faltan datos para validar el pago' });
-    }
-
-    const order = await Order.findById(orderId);
+    const order = await Order.findById(orderId)
+                                      .populate('raffle', 'name description price') // Solo estos campos de raffle
+                                      .populate('user', 'fullName nationalId email phone');        // Solo estos campos de user
     if (!order) return reply.code(404).send({ error: 'Orden no encontrada' });
 
     if (order.status === 'paid') {
       return reply.code(400).send({ error: 'La orden ya fue pagada' });
     }
 
-    // Validación especial para pago móvil
-    if (paymentMethod === 'pagoMovil') {
-      if (extraInfo === 4323) {
-        order.paymentMethod = paymentMethod;
-        order.extraInfo = extraInfo;
-        order.status = 'pending'; // o 'paid' según lógica
-        await order.save();
+    const raffle = await Raffle.findById(order.raffle._id);
+    //const assignedNumbers = assignRandomNumbers(raffle.totalNumbers, raffle.soldNumbers, order.quantity);
 
-        return reply.code(200).send({
-          message: 'El pago móvil fue confirmado.',
-          order,
-          success: true
-        });
-      } else {
-        return reply.code(422).send({ error: 'El número de confirmación no es válido.' });
-      }
-    }
-
-    // Para otros métodos
-    order.paymentMethod = paymentMethod;
-    order.extraInfo = extraInfo;
-    order.status = 'pending';
+    order.status = 'paid';
     await order.save();
 
-    return reply.code(200).send({
-      message: 'Pago registrado. Será validado por el equipo.',
-      orderId
+    const sendWhatsappResult = await sendWhatsappMessage('584248362674', 'Order Pagada');
+
+    reply.code(200).send({ 
+	   message: 'Pago en proceso de verificación, los números ya fuerón asignados', 
+	   whatsappMessageStatus: sendWhatsappResult,
+	   status: true
     });
   } catch (err) {
-    console.error(err);
-    reply.code(500).send({ error: 'Error al validar el pago' });
+    reply.code(500).send({ error: err.message });
   }
 };
 

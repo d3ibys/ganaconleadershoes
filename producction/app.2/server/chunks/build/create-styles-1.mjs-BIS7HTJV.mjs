@@ -1,0 +1,4 @@
+const create_vue_vue_type_style_index_0_scoped_95ce9831_lang = ".input[data-v-95ce9831],.textarea[data-v-95ce9831]{background-color:#1f2937;border:none;border-radius:8px;color:#fff;padding:10px;width:100%}.textarea[data-v-95ce9831]{min-height:80px}";
+
+export { create_vue_vue_type_style_index_0_scoped_95ce9831_lang as c };
+//# sourceMappingURL=create-styles-1.mjs-BIS7HTJV.mjs.map
