@@ -32,6 +32,7 @@ const sendWhatsappMessage = async (phone, message) => {
 
     // Realizar la petición a la API externa
     const response = await axios(config);
+    console.log(response)
 
     // Retornar resultado exitoso
     return {

@@ -12,6 +12,11 @@ const ticketSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  order: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Orders',
+    required: false
+  },
   ticketQuantity: {
     type: Number,
     required: true,
@@ -23,12 +28,12 @@ const ticketSchema = new mongoose.Schema({
     min: 0
   },
   assignedNumbers: {
-    type: [Number],
+    type: [String],
     required: true
   },
   paymentMethod: {
     type: String,
-    enum: ['pagoMovil', 'paypal', 'zelle', 'efectivo', 'otro'],
+    enum: ['pagoMovil', 'paypal', 'zelle'],
     required: true
   },
   paymentReference: {
@@ -37,7 +42,7 @@ const ticketSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'verified', 'rejected'],
+    enum: ['pending', 'verified', 'rejected', 'paid'],
     default: 'pending'
   },
   purchaseDate: {
