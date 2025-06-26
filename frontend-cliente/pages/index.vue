@@ -13,11 +13,7 @@
         </div>
       </template>
     </div>
-
-    <CarouselBanners />
-
     <div class="section-title">Rifas destacadas</div>
-
     <div v-if="loading" class="loading">Cargando rifas...</div>
     <div v-else-if="error" class="error">Error al cargar rifas</div>
     <div v-else  style="max-width:600px;margin:auto;padding:0px 20px 0px 20px;">
@@ -33,7 +29,6 @@
       />
       <div v-if="!raffles.length" class="empty">No hay rifas disponibles</div>
     </div>
-
     <NavbarBottom />
   </div>
 </template>
@@ -42,7 +37,6 @@
 import { ref } from 'vue'
 import HeaderTop from '~/components/HeaderTop.vue'
 import MenuDrawer from '~/components/MenuDrawer.vue'
-import CarouselBanners from '~/components/CarouselBanners.vue'
 import FeaturedCard from '~/components/FeaturedCard.vue'
 import NavbarBottom from '~/components/NavbarBottom.vue'
 import { useAuth } from '~/composables/useAuth'

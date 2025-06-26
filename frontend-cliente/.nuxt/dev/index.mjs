@@ -645,8 +645,7 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "apiBase": "http://api.ganaconleadershoes.com/api",
-    "NUXT_PUBLIC_BASE_API": "https://api.ganaconleadershoes.com/api"
+    "apiBase": "http://api.ganaconleadershoes.com/api"
   }
 };
 const envOptions = {
@@ -1021,7 +1020,7 @@ const _90vpQiWpPgDENqB398wxJBOwFssPuGhdyfNMMaOEswY = (function(nitro) {
 
 const rootDir = "/var/www/html/leadershoes/pro/frontend-cliente";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"http-equiv":"Cache-Control","content":"no-cache, no-store, must-revalidate"},{"http-equiv":"Pragma","content":"no-cache"},{"http-equiv":"Expires","content":"0"}],"link":[],"style":[],"script":[],"noscript":[]};
 
 const appRootTag = "div";
 

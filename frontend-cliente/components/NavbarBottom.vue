@@ -32,6 +32,7 @@ import { useAuth } from '~/composables/useAuth'
 
 import { HomeIcon } from '@heroicons/vue/24/outline'
 import { TicketIcon as RaffleIcon } from '@heroicons/vue/24/outline'
+import { TrophyIcon as TrophyIcon } from '@heroicons/vue/24/outline'
 import { ReceiptPercentIcon as MyTicketsIcon } from '@heroicons/vue/24/outline'
 import { UserCircleIcon as DashboardIcon } from '@heroicons/vue/24/outline'
 import { UserPlusIcon as RegisterIcon } from '@heroicons/vue/24/outline'
@@ -45,13 +46,14 @@ const menu = computed(() =>
   isLoggedIn.value
     ? [
         { label: 'Inicio', icon: HomeIcon, path: '/' },
-        { label: 'Rifas', icon: RaffleIcon, path: '/raffles' },
+        { label: 'Rifas', icon: RaffleIcon, path: '/' },
         { label: 'Mis Tickets', icon: MyTicketsIcon, path: '/my-tickets' },
         { label: 'Panel', icon: DashboardIcon, path: '/dashboard' }
       ]
     : [
         { label: 'Inicio', icon: HomeIcon, path: '/' },
-        { label: 'Rifas', icon: RaffleIcon, path: '/raffles' },
+        //{ label: 'Rifas', icon: RaffleIcon, path: '/' },
+        { label: 'Top 10', icon: TrophyIcon, path: '/top-buyers' },
         { label: 'Registrarse', icon: RegisterIcon, path: '/register' },
         { label: 'Iniciar sesión', icon: LoginIcon, path: '/login' }
       ]

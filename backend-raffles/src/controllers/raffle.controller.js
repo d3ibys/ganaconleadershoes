@@ -1,5 +1,6 @@
 import Raffle from '../models/raffle.model.js';
 import Ticket from '../models/ticket.model.js';
+import TopTen from '../models/topTenTicketsPurchased.js';
 
 // Asignar ganadores a la rifa
 export const assignWinners = async (req, res) => {
@@ -70,6 +71,7 @@ export const createRaffle = async (request, reply) => {
 export const getAllRaffles = async (request, reply) => {
   try {
     const raffles = await Raffle.find().lean();
+    const topTen = await TopTen.find().sort({ totalTicketsPurchased: -1 }).limit(10).lean();
 
     const rafflesWithPercent = raffles.map(raffle => {
       const sold = raffle.totalSoldNumbers || 0;
@@ -78,7 +80,8 @@ export const getAllRaffles = async (request, reply) => {
 
       return {
         ...raffle,
-        percentSold
+        percentSold,
+	topTen
       };
     });
 
@@ -93,6 +96,7 @@ export const getRaffleBySlug = async (request, reply) => {
   try {
     const { slug } = request.params;
     const raffle = await Raffle.findOne({ slug }).lean();
+    const topTen = await TopTen.find().sort({ totalTicketsPurchased: -1 }).limit(10).lean();
 
     if (!raffle) {
       return reply.code(404).send({ error: 'Raffle not found' });
@@ -102,7 +106,7 @@ export const getRaffleBySlug = async (request, reply) => {
     const total = raffle.totalNumbers || 1;
     const percentSold = parseFloat(((sold / total) * 100).toFixed(2));
 
-    reply.send({ ...raffle, percentSold });
+    reply.send({ ...raffle, percentSold, topTen });
   } catch (err) {
     reply.code(500).send({ error: err.message });
   }
@@ -144,4 +148,42 @@ export const deleteRaffle = async (request, reply) => {
     reply.code(500).send({ error: err.message });
   }
 };
+
+// crear números premiados
+
+
+export async function setRewardedNumbers(request, reply) {
+  const { slug, numbers } = request.body;
+
+  if (!slug || !Array.isArray(numbers)) {
+    throw request.server.httpErrors.badRequest('Datos inválidos: slug y numbers son requeridos');
+  }
+
+  const incomingNumbers = numbers.map(num => num.toString().trim());
+
+  const raffle = await Raffle.findOne({ slug });
+
+  if (!raffle) {
+    throw request.server.httpErrors.notFound('Rifa no encontrada');
+  }
+
+  const newRewarded = incomingNumbers.filter(num => {
+    const isSold = raffle.soldNumbers.includes(num);
+    const isAlreadyRewarded = raffle.rewardedNumbers.includes(num);
+    return !isSold && !isAlreadyRewarded;
+  });
+
+  if (newRewarded.length === 0) {
+    throw request.server.httpErrors.conflict('Ninguno de los números puede ser premiado (ya vendidos o ya premiados)');
+  }
+
+  raffle.rewardedNumbers.push(...newRewarded);
+  await raffle.save();
+
+  return reply.send({
+    success: true,
+    added: newRewarded,
+    ignored: incomingNumbers.filter(n => !newRewarded.includes(n)),
+  });
+}
 

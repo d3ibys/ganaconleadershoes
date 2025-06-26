@@ -16,7 +16,7 @@
         <div class="raffle-cost" v-if="cost !== undefined && cost !== null">
           {{ formatCurrency(cost) }}
         </div>
-        <span class="buy-btn-label">Comprar número</span>
+        <span class="buy-btn-label">Comprar ticket</span>
       </div>
     </button>
   </div>

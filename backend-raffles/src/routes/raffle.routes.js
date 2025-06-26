@@ -4,7 +4,8 @@ import {
   getRaffleBySlug,
   updateRaffle,
   assignWinners,
-  deleteRaffle
+  deleteRaffle,
+  setRewardedNumbers
 } from '../controllers/raffle.controller.js';
 
 export default async function raffleRoutes(fastify, options) {
@@ -12,6 +13,11 @@ export default async function raffleRoutes(fastify, options) {
   fastify.post('/raffles', {
     preHandler: [fastify.authenticate],
     handler: createRaffle,
+  });
+
+  fastify.post('/raffle/set/rewarded-numbers', {
+    preHandler: [fastify.authenticate],
+    handler: setRewardedNumbers,
   });
 
   // Editar una rifa por ID (protegida)

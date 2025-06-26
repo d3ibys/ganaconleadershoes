@@ -7,8 +7,9 @@ const RaffleSchema = new mongoose.Schema({
   details: { type: String },
 
   totalNumbers: { type: Number, required: true },
-  soldNumbers: { type: [Number], default: [] },
+  soldNumbers: { type: [String], default: [] },
   totalSoldNumbers: { type: Number, default: 0 },
+  rewardedNumbers: { type: [String], default: [] },
 
   price: { type: Number, required: true },
 

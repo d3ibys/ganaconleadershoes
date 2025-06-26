@@ -61,7 +61,7 @@
       @input="handleInput"
       @keypress="handleKeypress"
       @focus="$event.target.select()"
-      type="number"
+      type="text"
       min="0"
       max="9999"
       step="1"
@@ -75,6 +75,9 @@
       placeholder="Correo desde el que pagaste"
       required
     />
+	<p v-if="form.paymentMethod === 'zelle' || form.paymentMethod === 'binance'" class="warning-text">
+  	      Para los pagos con Binance o Zelle tiene que ser una compra mínima de diez (10) tickets.
+	</p>
   </div>
 </div>
 
@@ -85,8 +88,14 @@
         <h2 class="section-title">Resumen</h2>
         <p>Rifa: {{ raffle?.title }}</p>
         <p>Boletos: {{ quantity }}</p>
-        <p>Precio por boleto: Bs. {{ raffle?.price }}</p>
-        <p>Total: Bs. {{ total }}</p>
+	<div v-if="form.paymentMethod === 'zelle' || form.paymentMethod === 'binance'">
+        	<p>Precio por boleto: USD ${{ ((raffle?.price || 0) / 102.8).toFixed(2) }}</p>
+	        <p>Total: USD ${{ ((total || 0) / 102.8).toFixed(2) }}</p>
+	</div>
+	<div v-else>
+       	 	<p>Precio por boleto: Bs. {{ raffle?.price }}</p>
+        	<p>Total: Bs. {{ total }}</p>
+        </div>
       </div>
 	<button
   	     class="submit-btn"
@@ -143,8 +152,8 @@ const orderId = route.query.orderId
 const raffle = computed(() => raffles.value.find(r => r.slug === slug))
 
 const mobilePaymentDetails = `
-04141234567
-J12345678
+04248362674
+19939353
 0134
 ${total}
 `

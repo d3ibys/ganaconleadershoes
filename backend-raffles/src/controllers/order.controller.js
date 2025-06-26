@@ -38,6 +38,7 @@ let existingUser = await User.findOne({
       const newUser = new User({
         fullName: user.fullName,
         email: user.email,
+	state: user.state,
         phone: user.phone,
         whatsapp: user.whatsapp,
         nationalId: user.cedula,
@@ -214,6 +215,7 @@ console.log('Numero: ',order.user.phone, 'Mensaje: ', whatsappMessageUser)
     reply.code(500).send({ error: err.message });
   }
 };
+
 
 export const resendTicket = async (request, reply) => {
   try {

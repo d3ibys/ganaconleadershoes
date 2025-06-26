@@ -3,13 +3,14 @@
     <div class="card">
       <img :src="raffle.imageMain" :alt="raffle.title" />
       <div class="card-header">
-        <span class="badge">{{ raffle.createdAt?.split('T')[0] }}</span>
+        <span class="badge">03-07-2025</span>
         <span>Boleto {{ raffle.price ? `Bs. ${raffle.price}` : '-' }}</span>
       </div>
       <div class="title">{{ raffle.title }}</div>
       <div class="progress-bar" :title="tooltip">
-        <div class="progress-bar-inner" :style="{ width: raffle.percentSold + '%' }"></div>
+        <div class="progress-bar-inner" :style="{ width: raffle.percentSold + '%' }">{{ raffle.percentSold }}</div>
       </div>
+	<div class="progress-label">{{ raffle.percentSold }}% vendido</div>
     </div>
 
     <div class="ticket-section">
@@ -33,17 +34,33 @@
       </div>
 
       <div class="total">💰 Total: Bs. {{ total }}</div>
+        <p class="warning-text">
+              Para los pagos con Binance o Zelle tiene que ser una compra mínima de diez (10) tickets.
+        </p>
       <p v-if="quantity < 2" class="warning">⚠️ Mínimo 2 boletos requeridos</p>
       <p v-if="quantity > remaining" class="warning">⚠️ Solo quedan {{ remaining }} disponibles</p>
 
       <form @submit.prevent="handleCheckout">
         <input class="form_input" v-model="userData.fullName" placeholder="Nombre completo" required />
         <input class="form_input" v-model="userData.email" placeholder="Correo electrónico" type="email" required />
-        <input class="form_input" v-model="userData.phone" placeholder="Teléfono" type="number" required />
+	<PhoneInput v-model="userData.phone" />
+	    <select
+      		id="estado"
+      		v-model="userData.state"
+      		class="custom-select"
+      		required>
+      			<option disabled selected value="">Seleccione un estado</option>
+      			<option
+        			v-for="estado in estadosVenezuela"
+        			:key="estado.nombre"
+        			:value="estado.nombre"
+      			>
+        			{{ estado.nombre }}
+      			</option>
+    	    </select>
         <input class="form_input" v-model="userData.cedula" placeholder="Cédula" type="number" required />
-
         <button class="btn" :disabled="quantity < 2 || quantity > remaining || isProcessing">
-          {{ isProcessing ? 'Procesando...' : 'Comprar boletos' }}
+          {{ isProcessing ? 'Procesando...' : 'Comprar números' }}
         </button>
       </form>
 
@@ -56,6 +73,7 @@
 <script setup>
 import { reactive, onMounted} from 'vue'
 import { useRaffleTickets } from '@/composables/useRaffleTickets'
+import  PhoneInput from './PhoneInput'
 
 const props = defineProps({
   raffle: {
@@ -68,11 +86,40 @@ const props = defineProps({
 
 const userData = reactive({
   fullName: '',
+  state: '',
   email: '',
-  phone: '',
+  phone: '' || "",
   whatsapp: '',
   cedula: ''
 })
+
+const estadosVenezuela = [
+  { nombre: "Amazonas", capital: "Puerto Ayacucho" },
+  { nombre: "Anzoátegui", capital: "Barcelona" },
+  { nombre: "Apure", capital: "San Fernando de Apure" },
+  { nombre: "Aragua", capital: "Maracay" },
+  { nombre: "Barinas", capital: "Barinas" },
+  { nombre: "Bolívar", capital: "Ciudad Bolívar" },
+  { nombre: "Carabobo", capital: "Valencia" },
+  { nombre: "Cojedes", capital: "San Carlos" },
+  { nombre: "Delta Amacuro", capital: "Tucupita" },
+  { nombre: "Falcón", capital: "Coro" },
+  { nombre: "Guárico", capital: "San Juan de los Morros" },
+  { nombre: "Lara", capital: "Barquisimeto" },
+  { nombre: "Mérida", capital: "Mérida" },
+  { nombre: "Miranda", capital: "Los Teques" },
+  { nombre: "Monagas", capital: "Maturín" },
+  { nombre: "Nueva Esparta", capital: "La Asunción" },
+  { nombre: "Portuguesa", capital: "Guanare" },
+  { nombre: "Sucre", capital: "Cumaná" },
+  { nombre: "Táchira", capital: "San Cristóbal" },
+  { nombre: "Trujillo", capital: "Trujillo" },
+  { nombre: "La Guaira", capital: "La Guaira" }, // Anteriormente Vargas
+  { nombre: "Yaracuy", capital: "San Felipe" },
+  { nombre: "Zulia", capital: "Maracaibo" },
+  { nombre: "Distrito Capital", capital: "Caracas" }, // Aunque no es un estado, se incluye a menudo por su relevancia.
+  { nombre: "Dependencias Federales", capital: "Sin capital específica" } // Islas y archipiélagos
+];
 
 const {
   quantity,
@@ -111,6 +158,23 @@ onMounted(() => {
   --color-text: #fff;
   --color-secondary: #999;
   --radius: 14px;
+}
+.progress-label {
+  padding: 10px;
+  font-size: 0.85rem;
+  color: #ccc;
+  text-align: right;
+}
+
+.warning-text {
+  color: #ffcc00;
+  background: #332f00;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .form_input {
@@ -273,6 +337,35 @@ onMounted(() => {
   color: var(--color-primary);
   margin-bottom: 10px;
   font-size: 14px;
+}
+.select-container {
+  margin-bottom: 16px;
+}
+
+.select-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 12px;
+  background-color: #222;
+  color: #6a756a;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0px 0px 1px 1px #cddc39;
+  margin-bottom: 10px
+}
+
+.custom-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #d3c423;
 }
 </style>
 

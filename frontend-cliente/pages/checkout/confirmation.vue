@@ -4,10 +4,11 @@
 
     <div class="card">
       <h2>¡Gracias por tu compra, {{ user.fullName }}!</h2>
+	<br />
       <p><strong>Cantidad de boletos:</strong> {{ quantity }}</p>
       <p><strong>Total pagado:</strong> Bs. {{ total }}</p>
       <p><strong>Método de pago:</strong> {{ paymentMethodLabel }}</p>
-
+      <p><strong>Orden: #</strong>68587e97a93a6e95726218c2</p>
       <div class="notice">
         <p>
           Tu pago está siendo verificado. <br />
