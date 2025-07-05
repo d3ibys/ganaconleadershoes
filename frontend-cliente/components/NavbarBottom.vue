@@ -35,6 +35,8 @@ import { TicketIcon as RaffleIcon } from '@heroicons/vue/24/outline'
 import { TrophyIcon as TrophyIcon } from '@heroicons/vue/24/outline'
 import { ReceiptPercentIcon as MyTicketsIcon } from '@heroicons/vue/24/outline'
 import { UserCircleIcon as DashboardIcon } from '@heroicons/vue/24/outline'
+import { QuestionMarkCircleIcon as QuestionMarkCircle } from '@heroicons/vue/24/outline'
+import { ClipboardDocumentCheckIcon as ClipboardDocumentCheck } from '@heroicons/vue/24/outline'
 import { UserPlusIcon as RegisterIcon } from '@heroicons/vue/24/outline'
 import { ArrowRightStartOnRectangleIcon as LoginIcon } from '@heroicons/vue/24/outline'
 import { ArrowRightOnRectangleIcon as LogoutIcon } from '@heroicons/vue/24/outline'
@@ -54,8 +56,8 @@ const menu = computed(() =>
         { label: 'Inicio', icon: HomeIcon, path: '/' },
         //{ label: 'Rifas', icon: RaffleIcon, path: '/' },
         { label: 'Top 10', icon: TrophyIcon, path: '/top-buyers' },
-        { label: 'Registrarse', icon: RegisterIcon, path: '/register' },
-        { label: 'Iniciar sesión', icon: LoginIcon, path: '/login' }
+        { label: 'FAQ', icon: QuestionMarkCircle, path: '/faq' },
+        { label: 'Términos y Condiciones', icon: ClipboardDocumentCheck, path: '/terms-and-conditions' }
       ]
 )
 </script>
