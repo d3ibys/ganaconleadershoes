@@ -8,6 +8,8 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import raffleRoutes from './routes/raffle.routes.js';
 import orderRoutes from './routes/order.routes.js';
+import testMailRoutes from './routes/test-mail.routes.js';
+import verifyApiKeyPlugin from './middlewares/apikey.middleware.js';
 
 dotenv.config();
 
@@ -23,12 +25,14 @@ await app.register(cors, {
 
 // Registrar el plugin de autenticación JWT
 app.register(authPlugin); // Debe ir antes que las rutas que usan fastify.authenticate
+app.register(verifyApiKeyPlugin);
 
 // Registrar rutas
 app.register(authRoutes, { prefix: '/api/auth' });
 app.register(userRoutes, { prefix: '/api' });      // Rutas protegidas
 app.register(raffleRoutes, { prefix: '/api' });    // Rutas protegidas
 app.register(orderRoutes, { prefix: '/api' });     // Rutas protegidas
+app.register(testMailRoutes, { prefix: '/api' });     // Rutas protegidas
 
 // Arrancar servidor
 const start = async () => {

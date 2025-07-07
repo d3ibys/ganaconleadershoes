@@ -61,7 +61,7 @@ export const createRaffle = async (request, reply) => {
       createdBy: request.user._id,
     });
     await raffle.save();
-    reply.code(201).send(raffle);
+    reply.code(201).type('application/json').send(raffle);
   } catch (err) {
     reply.code(400).send({ error: err.message });
   }

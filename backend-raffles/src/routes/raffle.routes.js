@@ -11,7 +11,7 @@ import {
 export default async function raffleRoutes(fastify, options) {
   // Crear una rifa (protegida)
   fastify.post('/raffles', {
-    preHandler: [fastify.authenticate],
+    preHandler: [fastify.verifyApiKey],
     handler: createRaffle,
   });
 
