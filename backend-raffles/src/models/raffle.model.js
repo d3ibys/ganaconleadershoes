@@ -10,6 +10,10 @@ const RaffleSchema = new mongoose.Schema({
   soldNumbers: { type: [String], default: [] },
   totalSoldNumbers: { type: Number, default: 0 },
   rewardedNumbers: { type: [String], default: [] },
+  availableNumbers: {
+     type: [String], // importante: no Array
+     default: [],
+  },
 
   price: { type: Number, required: true },
 
