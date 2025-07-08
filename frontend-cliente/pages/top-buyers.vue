@@ -22,7 +22,7 @@
           <span v-if="index > 2">#{{ index + 1 }}</span>
         </span>
         <span class="name">{{ buyer.userName }}</span>
-        <span class="tickets">{{ buyer.totalTicketsPurchased }} boletos</span>
+        <span class="tickets"></span>
       </li>
     </ul>
 
